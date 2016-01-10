@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<title>Embiggen icons</title>
+
+<script>
+(function () {
+
+var SIZES = [
+	16,
+	32,
+	48,
+	64,
+	96,
+	256,
+];
+
+function buildIconImageElement (size) {
+	var canvas = document.createElement('canvas');
+	canvas.width = canvas.height = size;
+	var ctx = canvas.getContext('2d');
+	// Background
+	ctx.fillStyle = '#fff';
+	ctx.fillRect(0, 0, size, size);
+	// Text
+	ctx.font = (size * 0.58) + 'px Arial';
+	ctx.fillStyle = '#000';
+	ctx.fillText('BIG', 0, size * 0.50);
+	// Convert to image
+	var image = new Image();
+	image.src = canvas.toDataURL();
+	return image;
+}
+
+function buildIconDisplayElement (size) {
+	var container = document.createElement('div');
+	var header = document.createElement('h1');
+	header.textContent = size + 'x' + size;
+	container.appendChild(header);
+	var image = buildIconImageElement(size);
+	container.appendChild(image);
+	return container;
+}
+
+function buildIconDisplayListElement (sizes) {
+	var container = document.createElement('div');
+	sizes.forEach(function (size) {
+		var item = buildIconDisplayElement(size);
+		container.appendChild(item);
+	});
+	return container;
+}
+
+var displayList = buildIconDisplayListElement(SIZES);
+
+document.addEventListener('DOMContentLoaded', function () {
+	document.body.appendChild(displayList);
+});
+
+})();
+</script>
