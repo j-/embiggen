@@ -1,7 +1,9 @@
 CACHE MANIFEST
-# Updated 2016-01-10T16:06:24+11:00
+# Updated 2016-10-10T16:27:26+11:00
 index.html
 screenfull.js
+bundle.js
+bundle.js.map
 manifest.json
 icon-32x32.png
 icon-48x48.png
