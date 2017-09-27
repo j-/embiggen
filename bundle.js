@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
 	__webpack_require__(5);
@@ -105,10 +105,7 @@
 		const zoomRatioHeight = documentHeight / editorHeight;
 		const zoomRatioMin = Math.min(zoomRatioWidth, zoomRatioHeight);
 		zoom(zoomRatioMin);
-		window.requestAnimationFrame(() => {
-			parent.scrollLeft = 0;
-			parent.scrollTop = 0;
-		});
+		window.requestAnimationFrame(() => parent.scrollLeft = 0);
 	}
 	
 	function saveValue () {
@@ -141,9 +138,9 @@
 	})();
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
@@ -157,8 +154,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./normalize.css", function() {
-				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./normalize.css");
+			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./normalize.css", function() {
+				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./normalize.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -167,9 +164,9 @@
 		module.hot.dispose(function() { update(); });
 	}
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
 	// imports
@@ -181,9 +178,9 @@
 	// exports
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
@@ -237,9 +234,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
@@ -254,7 +251,7 @@
 			};
 		},
 		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+			return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
 		}),
 		getHeadElement = memoize(function () {
 			return document.head || document.getElementsByTagName("head")[0];
@@ -489,9 +486,9 @@
 	}
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
@@ -505,8 +502,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/less-loader/index.js!./main.less", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/less-loader/index.js!./main.less");
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/less-loader/index.js!./main.less", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/less-loader/index.js!./main.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -515,20 +512,20 @@
 		module.hot.dispose(function() { update(); });
 	}
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "html,\nbody {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  transform-origin: 0 0;\n  font-size: 18px;\n  overflow: hidden;\n  cursor: text;\n  line-height: 0.95em;\n  font-family: Arial, sans-serif;\n  background-color: #fff;\n}\n#edit {\n  width: 100%;\n  height: 100%;\n  outline: none;\n}\n", ""]);
+	exports.push([module.id, "html,\nbody {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  transform-origin: 0 0;\n  font-size: 18px;\n  overflow: hidden;\n  cursor: text;\n  line-height: 0.95em;\n  font-family: Arial, sans-serif;\n  background-color: #fff;\n}\n#edit {\n  outline: none;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n", ""]);
 	
 	// exports
 
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map
