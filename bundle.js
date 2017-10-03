@@ -88,6 +88,7 @@
 	
 	const LOCAL_STORAGE_KEY = 'embiggen-initial-value';
 	const DEFAULT_VALUE = 'Edit me';
+	const CARET_WIDTH = 1;
 	
 	const editor = document.getElementById('edit');
 	const parent = document.body;
@@ -99,7 +100,7 @@
 	function resize () {
 		editor.style.width = 'auto';
 		editor.style.height = 'auto';
-		const editorWidth = editor.offsetWidth;
+		const editorWidth = editor.offsetWidth + CARET_WIDTH;
 		const editorHeight = editor.offsetHeight;
 		const documentWidth = parent.offsetWidth;
 		const documentHeight = parent.offsetHeight;
