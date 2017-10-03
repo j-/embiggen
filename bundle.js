@@ -133,6 +133,11 @@
 		editor.focus();
 	});
 	
+	editor.addEventListener('blur', (e) => {
+		e.preventDefault();
+		editor.focus();
+	});
+	
 	loadValue();
 	
 	})();
