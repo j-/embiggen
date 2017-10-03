@@ -97,6 +97,8 @@
 	}
 	
 	function resize () {
+		editor.style.width = 'auto';
+		editor.style.height = 'auto';
 		const editorWidth = editor.offsetWidth;
 		const editorHeight = editor.offsetHeight;
 		const documentWidth = parent.offsetWidth;
@@ -105,7 +107,11 @@
 		const zoomRatioHeight = documentHeight / editorHeight;
 		const zoomRatioMin = Math.min(zoomRatioWidth, zoomRatioHeight);
 		zoom(zoomRatioMin);
-		window.requestAnimationFrame(() => parent.scrollLeft = 0);
+		window.requestAnimationFrame(() => {
+			parent.scrollLeft = 0;
+			editor.style.width = '100%';
+			editor.style.height = '100%';
+		});
 	}
 	
 	function saveValue () {
