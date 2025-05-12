@@ -13,17 +13,6 @@
 
 .App-output-outer {
   user-select: none;
-}
-
-.App-output-inner {
-  display: inline-block;
-  transform-origin: center;
-  line-height: 0.95em;
-  margin: 0.125em 0;
-  white-space: pre;
-}
-
-.App-output-outer {
   background-color: #fff;
   color: #000;
 }

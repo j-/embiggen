@@ -1,42 +1,14 @@
-import { ChangeEventHandler, FC, FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useWindowListener, useDocumentListener } from './use-listener';
+import { ChangeEventHandler, FC, FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { Embiggen } from './Embiggen';
 
 const DARK_MODE = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const App: FC = () => {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
-
+  const fullscreenRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState('Edit me');
   const [darkMode, setDarkMode] = useState(DARK_MODE);
   const [error, setError] = useState<null | string>(null);
-
-  const zoom = useCallback((val: number) => {
-    const inner = innerRef.current;
-    if (!inner) return;
-    inner.style.transform = `scale(${val})`;
-  }, []);
-
-  const updateZoom = useCallback(() => {
-    const outer = outerRef.current;
-    const inner = innerRef.current;
-    if (!outer || !inner) {
-      zoom(1);
-      return;
-    }
-    const zoomRatioWidth = outer.offsetWidth / inner.offsetWidth;
-    const zoomRatioHeight = outer.offsetHeight / inner.offsetHeight;
-    const zoomRatioMin = Math.min(zoomRatioWidth, zoomRatioHeight);
-    zoom(zoomRatioMin);
-  }, [zoom]);
-
-  const updateZoomWithDelay = useCallback(() => {
-    // Update immediately
-    updateZoom();
-    // Wait some time and do it again just in case
-    setTimeout(updateZoom, 100);
-  }, [updateZoom]);
 
   const handleChangeDarkMode = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     const { checked } = e.currentTarget;
@@ -49,7 +21,7 @@ const App: FC = () => {
 
   const handleSubmitForm = useCallback<FormEventHandler>(async (e) => {
     e.preventDefault();
-    const outer = outerRef.current;
+    const outer = fullscreenRef.current;
     if (!outer) return;
     try {
       await outer.requestFullscreen({ navigationUI: 'hide' });
@@ -61,19 +33,19 @@ const App: FC = () => {
     }
   }, []);
 
-  useWindowListener('orientationchange', updateZoomWithDelay);
-  useWindowListener('resize', updateZoomWithDelay);
-
-  useDocumentListener('fullscreenchange', () => {
-    const outer = outerRef.current;
+  useEffect(() => {
+    const outer = fullscreenRef.current;
     if (!outer) return;
-    if (document.fullscreenElement === outer) {
-      outer.classList.add('zoom');
-      updateZoom();
-    } else {
-      outer.classList.remove('zoom');
-    }
-  });
+    const handler = () => {
+      if (document.fullscreenElement === outer) {
+        outer.classList.add('zoom');
+      } else {
+        outer.classList.remove('zoom');
+      }
+    };
+    document.addEventListener('fullscreenchange', handler);
+    return () => document.removeEventListener('fullscreenchange', handler);
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -115,10 +87,8 @@ const App: FC = () => {
         </button>
       </form>
 
-      <div ref={outerRef} className="App-output-outer d-flex align-items-center justify-content-center">
-        <div ref={innerRef} className="App-output-inner">
-          {content}
-        </div>
+      <div ref={fullscreenRef} className="App-output-outer">
+        <Embiggen>{content}</Embiggen>
       </div>
     </>
   );
