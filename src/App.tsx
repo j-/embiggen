@@ -1,24 +1,24 @@
-import * as React from 'react';
+import { ChangeEventHandler, FC, FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useWindowListener, useDocumentListener } from './use-listener';
 
 const DARK_MODE = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-const App: React.FC = () => {
-  const outerRef = React.useRef<HTMLDivElement>(null);
-  const innerRef = React.useRef<HTMLDivElement>(null);
+const App: FC = () => {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
-  const [content, setContent] = React.useState('Edit me');
-  const [darkMode, setDarkMode] = React.useState(DARK_MODE);
-  const [error, setError] = React.useState<null | string>(null);
+  const [content, setContent] = useState('Edit me');
+  const [darkMode, setDarkMode] = useState(DARK_MODE);
+  const [error, setError] = useState<null | string>(null);
 
-  const zoom = React.useCallback((val: number) => {
+  const zoom = useCallback((val: number) => {
     const inner = innerRef.current;
     if (!inner) return;
     inner.style.transform = `scale(${val})`;
   }, []);
 
-  const updateZoom = React.useCallback(() => {
+  const updateZoom = useCallback(() => {
     const outer = outerRef.current;
     const inner = innerRef.current;
     if (!outer || !inner) {
@@ -31,30 +31,30 @@ const App: React.FC = () => {
     zoom(zoomRatioMin);
   }, [zoom]);
 
-  const updateZoomWithDelay = React.useCallback(() => {
+  const updateZoomWithDelay = useCallback(() => {
     // Update immediately
     updateZoom();
     // Wait some time and do it again just in case
     setTimeout(updateZoom, 100);
   }, [updateZoom]);
 
-  const handleChangeDarkMode = React.useCallback<React.ChangeEventHandler<HTMLInputElement>>((e) => {
+  const handleChangeDarkMode = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     const { checked } = e.currentTarget;
     setDarkMode(checked);
   }, []);
 
-  const handleChangeContent = React.useCallback<React.ChangeEventHandler<HTMLTextAreaElement>>((e) => {
+  const handleChangeContent = useCallback<ChangeEventHandler<HTMLTextAreaElement>>((e) => {
     setContent(e.currentTarget.value);
   }, []);
 
-  const handleSubmitForm = React.useCallback<React.ReactEventHandler>(async (e) => {
+  const handleSubmitForm = useCallback<FormEventHandler>(async (e) => {
     e.preventDefault();
     const outer = outerRef.current;
     if (!outer) return;
     try {
       await outer.requestFullscreen({ navigationUI: 'hide' });
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     }
   }, []);
 
@@ -72,7 +72,7 @@ const App: React.FC = () => {
     }
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
