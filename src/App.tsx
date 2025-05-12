@@ -53,6 +53,9 @@ const App: FC = () => {
     if (!outer) return;
     try {
       await outer.requestFullscreen({ navigationUI: 'hide' });
+      try {
+        await screen.orientation.lock('landscape');
+      } catch {}
     } catch (err) {
       setError((err as Error).message);
     }
