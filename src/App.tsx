@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { ChangeEventHandler, FC, FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { type ChangeEventHandler, type FC, type FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Embiggen } from './Embiggen';
 
 const DARK_MODE = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -87,9 +88,12 @@ const App: FC = () => {
         </button>
       </form>
 
-      <div ref={fullscreenRef} className="App-output-outer">
-        <Embiggen>{content}</Embiggen>
-      </div>
+      {createPortal(
+        <div ref={fullscreenRef} className="App-output-outer">
+          <Embiggen>{content}</Embiggen>
+        </div>,
+        document.body
+      )}
     </>
   );
 };
